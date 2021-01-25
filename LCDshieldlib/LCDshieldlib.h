@@ -1,3 +1,12 @@
+
+/****************************************************************************
+
+LCDshieldlib.h  - Uses LCD_AVR_4d.c an LCD for an Arduino written by Weiman
+(weimandn@alfredstate.edu) for the LCD support of an Arduino LCD Shield.
+
+*****************************************************************************
+*/
+
 /****************************************************************************
     LCD-AVR-4d.c  - Use an HD44780U based LCD with an Atmel ATmega processor
  
@@ -95,10 +104,10 @@
 // LCD module information
 #define lcd_LineOne     0x00                    // start of line 1
 #define lcd_LineTwo     0x40                    // start of line 2
-//#define   lcd_LineThree   0x14                  // start of line 3 (20x4)
-//#define   lcd_lineFour    0x54                  // start of line 4 (20x4)
-//#define   lcd_LineThree   0x10                  // start of line 3 (16x4)
-//#define   lcd_lineFour    0x50                  // start of line 4 (16x4)
+//#define   lcd_LineThree   0x14                // start of line 3 (20x4)
+//#define   lcd_lineFour    0x54                // start of line 4 (20x4)
+//#define   lcd_LineThree   0x10                // start of line 3 (16x4)
+//#define   lcd_lineFour    0x50                // start of line 4 (16x4)
 
 // LCD instructions
 #define lcd_Clear           0b00000001          // replace all characters with ASCII 'space'
@@ -111,10 +120,25 @@
 #define lcd_SetCursor       0b10000000          // set cursor position
 
 
-// Function Prototypes
+// Function Prototypes LCD
 void lcd_IO_init_4d(void);
 void lcd_write_4(uint8_t);
 void lcd_write_instruction_4d(uint8_t);
 void lcd_write_character_4d(uint8_t);
 void lcd_write_string_4d(uint8_t *);
 void lcd_init_4d(void);
+
+// define LCD/Keypad buttons
+#define NO_KEY 0
+#define SELECT_KEY 1
+#define LEFT_KEY 2
+#define UP_KEY 3
+#define DOWN_KEY 4
+#define RIGHT_KEY 5
+
+// Function Prototypes LCD
+
+void key_IO_init(void);
+void key_init(void) ;
+uint16_t ADC_read()	;
+uint8_t key_read(void) ;

@@ -1,12 +1,51 @@
 
-
 #define F_CPU 16000000UL
-
 #include <avr/io.h>
 #include <util/delay.h>
 #include "LCDshieldlib.h"
 
+/****************************************************************************
+
+LCDshieldlib.c  - Uses LCD_AVR_4d.c an LCD for an Arduino written by Weiman    
+(weimandn@alfredstate.edu) for the LCD support of an Arduino LCD Shield.
+
+*****************************************************************************
+*/
+
+/****************************************************************************
+    LCD_AVR_4d.c  - Use an HD44780U based LCD with an Arduino
+ 
+    Copyright (C) 2013 Donald Weiman    (weimandn@alfredstate.edu)
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/****************************************************************************
+         File:    LCD-AVR-4d.c
+         Date:    September 16, 2013
+         
+         Target:    ATmega328
+         Compiler:  avr-gcc (AVR Studio 6)
+         Author:    Donald Weiman
+       
+      Summary:    4-bit data interface, busy flag not implemented.
+                  Any LCD pin can be connected to any available I/O port.
+                  Includes a simple write string routine.
+*/
+
 /*============================== 4-bit LCD Functions ======================*/
+
+
 /*
   Name:     IO_init_4d
   Purpose:  
@@ -23,7 +62,7 @@ void lcd_IO_init_4d(void)
     lcd_D4_ddr |= (1<<lcd_D4_bit);
 
 // configure the microprocessor pins for the control lines
-    lcd_E_ddr |= (1<<lcd_E_bit);                    // E line - output
+    lcd_E_ddr  |= (1<<lcd_E_bit);                    // E line - output
     lcd_RS_ddr |= (1<<lcd_RS_bit);                  // RS line - output
 }
 
@@ -184,4 +223,63 @@ void lcd_write_4(uint8_t theByte)
     _delay_us(1);                                   // implement 'Data set-up time' (80 nS) and 'Enable pulse width' (230 nS)
     lcd_E_port &= ~(1<<lcd_E_bit);                  // Enable pin low
     _delay_us(1);                                   // implement 'Data hold time' (10 nS) and 'Enable cycle time' (500 nS)
+}
+
+
+// define LCD/Keypad buttons
+#define NO_KEY 0
+#define SELECT_KEY 1
+#define LEFT_KEY 2
+#define UP_KEY 3
+#define DOWN_KEY 4
+#define RIGHT_KEY 5
+
+void key_IO_init(void);
+void key_init(void) ;
+uint16_t ADC_read()	;
+uint8_t key_read(void) ;
+
+void key_IO_init(void)
+{
+   DDRC =0x00 ;
+}
+
+void key_init(void)
+{
+	ADCSRA  = 0x87; 						// ((1<<ADEN) | (0<<ADSC) | (1<<ADATE) | (0<<ADIF) | (0<<ADIE) | (1<<ADPS2) | (1<<ADPS1) | (1<<ADPS0));
+	ADMUX   = 0x40 ; 					//((1<<REFS1) | (1<<REFS0) | (0<<ADLAR) | (0<<MUX4) | (0<<MUX3) | (0<<MUX2) | (0<<MUX1) | (0<<MUX0));
+}
+
+
+uint16_t ADC_read()						// Read the Shield LCD's buttons
+{
+	uint16_t ADCValue;
+	
+	ADCSRA |= (1<<ADSC);				// start the conversion
+	while(ADCSRA & (1<<ADSC));			// ADSC is cleared when the conversion finishes
+	
+	// we have to read ADCL first; doing so locks both ADCL and ADCH until ADCH is read.
+
+	ADCValue = ADCL ;
+	ADCValue = ADCValue | (ADCH << 8);
+    return (ADCValue);
+}
+
+uint8_t key_read()						// Translate ADC to the Shield LCD's buttons
+{
+	uint16_t ADCValue;
+
+	ADCValue = ADC_read();
+	
+	// Average values for my board were: 0, 144, 324, 505, 742
+	// Add approx 100 to those values to set range
+	
+	if (ADCValue > 850)  return NO_KEY;
+	if (ADCValue < 70)   return RIGHT_KEY;
+	if (ADCValue < 250)  return UP_KEY;
+	if (ADCValue < 450)  return DOWN_KEY;
+	if (ADCValue < 650)  return LEFT_KEY;
+	if (ADCValue < 850)  return SELECT_KEY;
+	
+	return NO_KEY;
 }
