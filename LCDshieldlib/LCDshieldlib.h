@@ -1,11 +1,13 @@
 
 /****************************************************************************
 
-LCDshieldlib.h  - Uses LCD_AVR_4d.c an LCD for an Arduino written by Weiman
-(weimandn@alfredstate.edu) for the LCD support of an Arduino LCD Shield.
+LCDshieldlib provides support to read from ADC/Key and write to the LCD
+display on an Arduino LCD Shield.
 
-*****************************************************************************
-*/
+It uses LCD_AVR_4d.c to write to the LCD written by Donald Weiman
+(weimandn@alfredstate.edu)
+
+****************************************************************************/
 
 /****************************************************************************
     LCD-AVR-4d.c  - Use an HD44780U based LCD with an Atmel ATmega processor
@@ -122,11 +124,17 @@ LCDshieldlib.h  - Uses LCD_AVR_4d.c an LCD for an Arduino written by Weiman
 
 // Function Prototypes LCD
 void lcd_IO_init_4d(void);
+void lcd_init_4d(void);
 void lcd_write_4(uint8_t);
 void lcd_write_instruction_4d(uint8_t);
 void lcd_write_character_4d(uint8_t);
 void lcd_write_string_4d(uint8_t *);
-void lcd_init_4d(void);
+
+
+// Key interface
+#define key_port     PORTC                   
+#define key_bit      PORTC0
+#define key_ddr      DDRC
 
 // define LCD/Keypad buttons
 #define NO_KEY 0
@@ -137,8 +145,7 @@ void lcd_init_4d(void);
 #define RIGHT_KEY 5
 
 // Function Prototypes LCD
-
 void key_IO_init(void);
 void key_init(void) ;
-uint16_t ADC_read()	;
+uint16_t ADC_read(void)	;
 uint8_t key_read(void) ;

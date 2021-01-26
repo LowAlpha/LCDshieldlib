@@ -1,16 +1,18 @@
 
+/****************************************************************************
+
+LCDshieldlib provides support to read from ADC/Key and write to the LCD
+display on an Arduino LCD Shield.
+
+It uses LCD_AVR_4d.c to write to the LCD written by Donald Weiman
+(weimandn@alfredstate.edu)
+
+****************************************************************************/
+
 #define F_CPU 16000000UL
 #include <avr/io.h>
 #include <util/delay.h>
 #include "LCDshieldlib.h"
-
-/****************************************************************************
-
-LCDshieldlib.c  - Uses LCD_AVR_4d.c an LCD for an Arduino written by Weiman    
-(weimandn@alfredstate.edu) for the LCD support of an Arduino LCD Shield.
-
-*****************************************************************************
-*/
 
 /****************************************************************************
     LCD_AVR_4d.c  - Use an HD44780U based LCD with an Arduino
@@ -241,7 +243,7 @@ uint8_t key_read(void) ;
 
 void key_IO_init(void)
 {
-   DDRC =0x00 ;
+    key_ddr &= ~(1<<key_bit);
 }
 
 void key_init(void)
@@ -251,7 +253,7 @@ void key_init(void)
 }
 
 
-uint16_t ADC_read()						// Read the Shield LCD's buttons
+uint16_t ADC_read(void)						// Read the Shield LCD's buttons
 {
 	uint16_t ADCValue;
 	
