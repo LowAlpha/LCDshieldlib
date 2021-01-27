@@ -2,4 +2,4 @@
 
 ![Optional Text](../main/extras/LCDshieldimage.jpg)
 
-The schematic[LCD Shield Schematic](lcdshieldschematic.jpg).
+The schematic[LCD Shield Schematic](../main/extras/lcdshieldschematic.jpg).
