@@ -1,9 +1,11 @@
 ## LCDShieldLib
 
 
-LCDShieldLib is a C library to support the Arduino LCD Shield. It provides support to read from ADC/Key and write to the LCD display.  An example programme shows how to write to the LCD, and how to read from the ADC channel to return a raw value from keys and how to read key with value assigned to each key. 
+LCDShieldLib is a simple C library to support the Arduino LCD Shield. It provides support to read from ADC/Key and write to the LCD display.  An example programme shows how to write to the LCD, and how to read from the ADC channel to return a raw value from keys and how to read key with value assigned to each key. 
 The software is written in C and built using Microchip Studio and AVR-GCC on Windows. The module may be built directly with AVR-GCC either on Windows or Linux.
-It uses LCD_AVR_4d.c to write to the LCD written by Donald Weiman (weimandn@alfredstate.edu) Very good LCD and AVR resources are available from Donald at http://web.alfredstate.edu/faculty/weimandn.
+
+
+LCDShieldLib uses LCD_AVR_4d.c to write to the LCD written by Donald Weiman (weimandn@alfredstate.edu) Very good LCD and AVR resources are available from Donald at http://web.alfredstate.edu/faculty/weimandn.
 
 
 ![Optional Text](../main/extras/LCDshieldimage.jpg)
@@ -19,7 +21,8 @@ There functions to read from Keys are :-
 ```
 void key_IO_init(void) ; 	                      // Initialize the IO for to read the keys
 void key_init(void) ;	                          // Initialize the ADC to read the keys
-uint16_t ADC_read(void) ;	                      // Read the ADC to read the keys. Returns raw ADC value in // range 0 to 1023.
+uint16_t ADC_read(void) ;	                      // Read the ADC to read the keys. Returns raw ADC value in 
+                                                // range 0 to 1023.
 uint8_t key_read(void) ;	                      // Returns a key value based on the defined values below
 
 #define NO_KEY 0
