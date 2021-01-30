@@ -20,9 +20,9 @@ There functions to read from Keys are :-
 
 ```
 void key_IO_init(void) ; 	                      // Initialize the IO for to read the keys
-void key_init(void) ;	                          // Initialize the ADC to read the keys
+void key_init(void) ;	                            // Initialize the ADC to read the keys
 uint16_t ADC_read(void) ;	                      // Read the ADC to read the keys. Returns raw ADC value in 
-                                                // range 0 to 1023.
+                                                    // range 0 to 1023.
 uint8_t key_read(void) ;	                      // Returns a key value based on the defined values below
 
 #define NO_KEY 0
