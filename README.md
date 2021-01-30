@@ -1,7 +1,7 @@
 ## LCDShieldLib
 
 
-LCDShieldLib is a simple C library to support the Arduino LCD Shield. It provides support to read from ADC/Key and write to the LCD display.  An example programme shows how to write to the LCD, and how to read from the ADC channel to return a raw value from keys and how to read key with value assigned to each key. 
+LCDShieldLib is a simple C library to support the Arduino LCD Keypad Shield. It provides support to read from ADC/Key and write to the LCD display.  An example programme shows how to write to the LCD, and how to read from the ADC channel to return a raw value from the keypad and how to read the keypad with value assigned to each key. 
 The software is written in C and built using Microchip Studio and AVR-GCC on Windows. The module may be built directly with AVR-GCC either on Windows or Linux.
 
 
@@ -56,7 +56,7 @@ void lcd_write_instruction_4d(uint8_t); 	      // Write as single 8 but value as
 ```
 ## IO Used
 
-Arduino pins 4, 5, 6, 7, 8, 9 (AVR Port B bits 0,1 and 4,5,6,7) are used to interface with the LCD. Backlight on/off function is controlled via pin 10. Analog (pin 0 Port C bit 0) is used to read the buttons. Backlight on/off function is controlled via pin 10. (Not implemented).
+Arduino pins 4, 5, 6, 7, 8, 9 (AVR Port B bits 0,1 and 4,5,6,7) are used to interface with the LCD.  Analog (pin 0 Port C bit 0) is used to read the buttons. Backlight on/off function is controlled via pin 10. (Not implemented).
 
 The schematic for an [ LCD Shield ](../main/extras/lcdshieldschematic.jpg).
 
